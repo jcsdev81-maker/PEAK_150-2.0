@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PEAK 150 // FIELD TOOL</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0a;--sf:#121212;--rs:#1a1a1a;--ov:#080808;--bd:rgba(255,255,255,.06);--bn:rgba(255,255,255,.10);--t1:#E0E0E0;--t2:#8A8A8A;--td:#555;--red:#E53935;--redbg:rgba(229,57,53,.10);--redb:rgba(229,57,53,.30);--ylw:#FDD835;--ylwbg:rgba(253,216,53,.08);--ylwb:rgba(253,216,53,.25);--grn:#00E676;--grnbg:rgba(0,230,118,.08);--grnb:rgba(0,230,118,.25);--blu:#1E88E5;--cyn:#00ACC1;--acc:#00E676;--accd:rgba(0,230,118,.15);--fu:'Segoe UI',system-ui,sans-serif;--fm:'Consolas','Courier New',monospace;--r:6px;--r2:10px}
+html{height:100%;overflow-x:hidden}
+body{background:var(--bg);color:var(--t1);font-family:var(--fu);font-size:16px;line-height:1.5;min-height:100vh}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+#hdr{position:sticky;top:0;z-index:100;background:var(--ov);border-bottom:2px solid var(--acc);padding:0 16px;backdrop-filter:blur(10px)}
+.hi{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:54px}
+.lt{font-family:var(--fm);font-size:18px;font-weight:700;letter-spacing:.12em;color:var(--acc)}
+.ls{font-size:10px;color:var(--td);letter-spacing:.1em;text-transform:uppercase;font-family:var(--fm);margin-top:2px}
+.sp{display:flex;align-items:center;gap:6px;background:var(--grnbg);border:1px solid var(--grnb);border-radius:20px;padding:4px 12px;font-family:var(--fm);font-size:11px;font-weight:600;color:var(--acc);letter-spacing:.08em;text-transform:uppercase}
+.sd{width:7px;height:7px;border-radius:50%;background:var(--acc);animation:pd 2.5s infinite}
+@keyframes pd{0%,100%{box-shadow:0 0 0 0 rgba(0,230,118,.4)}50%{box-shadow:0 0 0 4px rgba(0,230,118,0)}}
+#nav{background:var(--ov);border-bottom:1px solid var(--bd);overflow-x:auto;scrollbar-width:none}
+#nav::-webkit-scrollbar{display:none}
+.ti{max-width:960px;margin:0 auto;display:flex}
+.tb{flex:0 0 auto;background:0;border:none;border-bottom:3px solid transparent;color:var(--t2);font-family:var(--fu);font-size:13px;font-weight:500;padding:11px 15px 9px;cursor:pointer;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.tb:hover{color:var(--t1);background:rgba(255,255,255,.03)}
+.tb.a{color:var(--acc);border-bottom-color:var(--acc);font-weight:600}
+#mc{max-width:960px;margin:0 auto;padding:20px 16px 80px}
+.tp{display:none}.tp.a{display:block;animation:fi .2s ease}
+@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.sh{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--bn)}
+.si{width:40px;height:40px;background:var(--accd);border:1px solid var(--grnb);border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.st{font-size:17px;font-weight:700}.ss{font-size:12px;color:var(--t2);font-family:var(--fm);margin-top:2px}
+.cd{background:var(--sf);border:1px solid var(--bn);border-radius:var(--r2);padding:18px;margin-bottom:14px}
+.cl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.cl::before{content:'▌';color:var(--cyn);font-size:13px}
+.fg{margin-bottom:14px}
+.fl{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--t2);margin-bottom:6px}
+.fi,.fs,.ft{width:100%;background:var(--rs);border:1px solid var(--bn);border-radius:var(--r);color:var(--t1);font-family:var(--fu);font-size:16px;padding:12px 14px;outline:none;transition:border-color .2s}
+.fi:focus,.fs:focus,.ft:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(0,230,118,.12)}
+.fi::placeholder,.ft::placeholder{color:var(--td);font-size:14px}
+.ft{resize:vertical;min-height:80px;line-height:1.5}
+.fs option{background:var(--rs);color:var(--t1)}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:500px){.fr{grid-template-columns:1fr}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid transparent;border-radius:var(--r);font-family:var(--fu);font-size:14px;font-weight:600;padding:10px 18px;min-height:44px;cursor:pointer;transition:all .18s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.bp{background:var(--acc);color:#000}.bp:hover{background:#00C964}
+.bd{background:var(--redbg);border-color:var(--redb);color:#EF9A9A}.bd:hover{background:rgba(229,57,53,.2);color:#fff}
+.bn{background:var(--rs);border-color:var(--bn);color:var(--t2)}.bn:hover{border-color:rgba(255,255,255,.2);color:var(--t1)}
+.bw{background:var(--ylwbg);border-color:var(--ylwb);color:var(--ylw)}
+.bs{padding:7px 13px;font-size:13px;min-height:36px}
+.bl{padding:13px 24px;font-size:16px;min-height:50px}
+.bk{width:100%}
+.bg{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tm{background:#080808;border:1px solid var(--bn);border-left:3px solid var(--cyn);border-radius:var(--r);padding:16px;font-family:var(--fm);font-size:14px;line-height:1.8;overflow-x:auto}
+.tc{color:var(--cyn);font-weight:700}.tr{color:#EF9A9A;font-weight:700}.tg{color:var(--acc)}.ty{color:var(--ylw)}.tdi{color:var(--td)}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:480px){.ig{grid-template-columns:1fr}}
+.ii{background:var(--rs);border:1px solid var(--bd);border-radius:var(--r);padding:12px 14px}
+.il{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:4px}
+.iv{font-size:15px;font-weight:600}
+.dtw{overflow-x:auto;border-radius:var(--r)}
+.dt{width:100%;border-collapse:collapse;font-size:14px}
+.dt th{background:var(--ov);color:var(--t2);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 12px;text-align:left;border-bottom:2px solid var(--acc);white-space:nowrap;position:sticky;top:0}
+.dt td{padding:9px 12px;border-bottom:1px solid var(--bd);vertical-align:middle}
+.dt tr:hover td{background:rgba(0,230,118,.03)}
+.vc{font-family:var(--fm);color:var(--cyn);font-weight:600;font-size:15px}
+.dm{color:var(--td);font-family:var(--fm);font-size:12px}
+.sr td{background:var(--accd)!important;color:var(--acc);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;border-bottom:2px solid var(--grnb);padding:8px 12px}
+.bt{color:var(--acc);font-weight:700}.bf{color:var(--red);font-weight:600;opacity:.7}
+.ftb{width:100%;border-collapse:collapse;font-size:14px}
+.ftb th{background:var(--ov);color:var(--t2);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 12px;text-align:left;border-bottom:2px solid var(--red);white-space:nowrap}
+.ftb td{padding:10px 12px;border-bottom:1px solid var(--bd);vertical-align:top;line-height:1.4}
+.ftb tr:hover td{background:rgba(255,255,255,.02)}
+.fc{font-family:var(--fm);font-weight:700;color:#EF9A9A;white-space:nowrap}
+.svt{color:var(--red);font-weight:700}.sva{color:var(--ylw);font-weight:700}.svd{color:var(--cyn);font-weight:700}
+.sbt{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin-bottom:16px;padding:4px;background:var(--rs);border-radius:var(--r);border:1px solid var(--bd)}
+.sbt::-webkit-scrollbar{display:none}
+.sb{flex:0 0 auto;padding:8px 14px;font-size:13px;font-weight:600;color:var(--t2);background:0;border:none;border-radius:var(--r);cursor:pointer;white-space:nowrap;transition:all .15s}
+.sb:hover{color:var(--t1);background:rgba(255,255,255,.04)}
+.sb.a{color:#000;background:var(--acc)}
+.sw{position:relative;margin-bottom:14px}
+.swi{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--td);font-size:15px;pointer-events:none}
+.swn{width:100%;background:var(--rs);border:1px solid var(--bn);border-radius:var(--r);color:var(--t1);font-size:16px;padding:12px 14px 12px 38px;outline:none;transition:border-color .2s}
+.swn:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(0,230,118,.1)}
+.es{text-align:center;padding:48px 16px}
+.ei{font-size:3rem;margin-bottom:12px;opacity:.3}
+.et{font-size:15px;font-weight:600;color:var(--t2)}
+.esu{font-size:13px;color:var(--td);margin-top:6px}
+#tc{position:fixed;bottom:24px;right:16px;z-index:10000;display:flex;flex-direction:column;gap:8px;max-width:340px;width:calc(100vw - 32px)}
+.to{background:var(--sf);border-radius:var(--r);padding:13px 16px;font-size:14px;display:flex;align-items:center;gap:10px;animation:tin .25s ease;box-shadow:0 4px 16px rgba(0,0,0,.6);border:1px solid var(--bn)}
+.tos{border-left:4px solid var(--acc);color:var(--acc)}
+.toe{border-left:4px solid var(--red);color:#EF9A9A}
+.toi{border-left:4px solid var(--cyn);color:var(--cyn)}
+.tow{border-left:4px solid var(--ylw);color:var(--ylw)}
+@keyframes tin{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes tou{from{opacity:1}to{opacity:0;transform:translateX(30px)}}
+.mo{position:fixed;inset:0;z-index:15000;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
+.mo.op{display:flex;animation:fi .2s}
+.mb{background:var(--sf);border:1px solid var(--bn);border-top:3px solid var(--acc);border-radius:var(--r2);padding:24px;max-width:460px;width:100%}
+.mt{font-size:16px;font-weight:700;margin-bottom:10px;padding-bottom:12px;border-bottom:1px solid var(--bd)}
+.alw{max-width:400px;margin:40px auto}
+.alb{background:var(--sf);border:1px solid var(--bn);border-top:3px solid var(--acc);border-radius:var(--r2);padding:32px 28px}
+.ae{background:var(--redbg);border:1px solid var(--redb);border-left:4px solid var(--red);border-radius:var(--r);padding:10px 14px;font-size:13px;color:#EF9A9A;margin-top:12px;display:none}
+.at{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:20px;padding:12px 16px;background:var(--accd);border:1px solid var(--grnb);border-left:4px solid var(--acc);border-radius:var(--r)}
+.srw{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:18px}
+.sc{background:var(--sf);border:1px solid var(--bn);border-radius:var(--r2);padding:14px 12px;text-align:center}
+.sv{font-family:var(--fm);font-size:28px;font-weight:700;color:var(--cyn);line-height:1}
+.slb{font-size:11px;font-weight:600;color:var(--t2);letter-spacing:.08em;text-transform:uppercase;margin-top:5px}
+.bcc{background:var(--sf);border:1px solid var(--bn);border-radius:var(--r2);margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+.bcc:hover{border-color:rgba(255,255,255,.15)}
+.bcc.ex{border-color:rgba(0,172,193,.25)}
+.bch{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none}
+.bch:hover{background:rgba(255,255,255,.02)}
+.bca{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--cyn));display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:13px;font-weight:700;color:#000;flex-shrink:0}
+.bcm{flex:1;min-width:0}
+.bcc .bcn{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bci{font-size:12px;color:var(--t2);margin-top:2px;font-family:var(--fm)}
+.bcv{color:var(--td);font-size:12px;transition:transform .25s;flex-shrink:0}
+.bcc.ex .bcv{transform:rotate(180deg)}
+.bcb{display:none;padding:0 16px 18px;border-top:1px solid var(--bd)}
+.bcc.ex .bcb{display:block;animation:fi .2s}
+.bst{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyn);margin:16px 0 8px;display:flex;align-items:center;gap:8px}
+.bst::after{content:'';flex:1;height:1px;background:var(--bd)}
+.ba{padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;font-family:var(--fm);white-space:nowrap}
+.bat{background:var(--redbg);border:1px solid var(--redb);color:#EF9A9A}
+.bao{background:var(--grnbg);border:1px solid var(--grnb);color:var(--acc)}
+.eb{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px;padding:12px 16px;background:var(--sf);border:1px solid var(--bn);border-radius:var(--r2)}
+.ipw{position:relative}.ipw .fi{padding-right:44px}
+.tpw{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--td);cursor:pointer;font-size:16px;padding:0}
+.pz{border:2px dashed var(--bn);border-radius:var(--r2);padding:28px 16px;text-align:center;cursor:pointer;transition:all .2s;background:var(--rs)}
+.pz:hover{border-color:var(--acc);background:var(--accd)}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:14px}
+.pt{position:relative;aspect-ratio:1;border-radius:var(--r);overflow:hidden;border:2px solid var(--bn);cursor:pointer}
+.pt img{width:100%;height:100%;object-fit:cover}
+.ptd{position:absolute;top:4px;right:4px;background:var(--red);border:none;border-radius:50%;width:20px;height:20px;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s}
+.pt:hover .ptd{opacity:1}
+.sbar{display:flex;align-items:flex-start;margin-bottom:22px;overflow-x:auto;scrollbar-width:none;padding:4px 0}
+.sbar::-webkit-scrollbar{display:none}
+.swp{display:flex;flex-direction:column;align-items:center;flex:1;min-width:50px}
+.scr{width:30px;height:30px;border-radius:50%;border:2px solid var(--bn);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:12px;font-weight:700;color:var(--td);background:var(--sf);z-index:1;transition:all .25s}
+.scr.dn{border-color:var(--acc);background:var(--acc);color:#000}
+.scr.ac{border-color:var(--cyn);background:var(--cyn);color:#000;box-shadow:0 0 0 4px rgba(0,172,193,.2)}
+.sln{flex:1;height:2px;background:var(--bn);margin:14px 4px 0;transition:background .3s}
+.sln.dn{background:var(--acc)}
+.slbl{font-size:10px;font-weight:500;color:var(--td);text-align:center;margin-top:3px;white-space:nowrap}
+.swp.ac .slbl{color:var(--cyn);font-weight:700}
+.swp.dn .slbl{color:var(--acc)}
+.sp2{display:none}.sp2.a{display:block;animation:fi .2s ease}
+@media(max-width:600px){.hi{height:48px}.lt{font-size:15px}#mc{padding:14px 12px 80px}.cd{padding:14px}.srw{grid-template-columns:repeat(2,1fr)}.sv{font-size:22px}.tb{padding:9px 11px;font-size:11px}}
+</style>
+</head>
+<body>
+<header id="hdr"><div class="hi"><div><div class="lt">PEAK_150</div><div class="ls">Woodward Steam Turbine Control · Field Tool v3.0</div></div><div class="sp"><div class="sd"></div><span>ONLINE</span></div></div></header>
+<nav id="nav"><div class="ti">
+<button class="tb a" onclick="sT('backup')" id="t-backup"><span>📋</span> Backup</button>
+<button class="tb" onclick="sT('service')" id="t-service"><span>🔧</span> Service</button>
+<button class="tb" onclick="sT('config')" id="t-config"><span>⚙️</span> Config</button>
+<button class="tb" onclick="sT('faults')" id="t-faults"><span>⚠️</span> Falhas</button>
+<button class="tb" onclick="sT('docs')" id="t-docs"><span>📄</span> Manuais</button>
+<button class="tb" onclick="sT('admin')" id="t-admin"><span>🔐</span> Admin</button>
+<button class="tb" onclick="sT('about')" id="t-about"><span>ℹ️</span> Sobre</button>
+</div></nav>
+<main id="mc">
+
+<!-- BACKUP -->
+<div class="tp a" id="p-backup">
+<div class="sh"><div class="si">📋</div><div><div class="st">Backup de Campo — Woodward Peak 150</div><div class="ss">Captura de dados · Modelo WS Controles</div></div></div>
+
+<!-- Step Bar -->
+<div class="sbar" id="sbar">
+<div class="swp ac" id="sw0"><div class="scr ac" id="sc0">1</div><div class="slbl">Dados</div></div><div class="sln" id="sl0"></div>
+<div class="swp" id="sw1"><div class="scr" id="sc1">2</div><div class="slbl">Fotos</div></div><div class="sln" id="sl1"></div>
+<div class="swp" id="sw2"><div class="scr" id="sc2">3</div><div class="slbl">Service</div></div><div class="sln" id="sl2"></div>
+<div class="swp" id="sw3"><div class="scr" id="sc3">4</div><div class="slbl">Config</div></div><div class="sln" id="sl3"></div>
+<div class="swp" id="sw4"><div class="scr" id="sc4">5</div><div class="slbl">Salvar</div></div>
+</div>
+
+<!-- STEP 1: DADOS -->
+<div class="sp2 a" id="stp1"><div class="cd">
+<div class="cl">Etapa 1 — Identificação do Atendimento</div>
+<div class="fr"><div class="fg"><label class="fl">Cliente *</label><input class="fi" id="fc" placeholder="Nome da planta / empresa"></div><div class="fg"><label class="fl">Emitido Por</label><input class="fi" id="fte" placeholder="Nome do técnico"></div></div>
+<div class="fr"><div class="fg"><label class="fl">Cidade / UF</label><input class="fi" id="fci" placeholder="Ex: Santa Helena de Goiás - GO"></div><div class="fg"><label class="fl">Data</label><input class="fi" id="fd" type="date"></div></div>
+<div class="fr"><div class="fg"><label class="fl">Turbina</label><input class="fi" id="ftu" placeholder="Identificação da turbina"></div><div class="fg"><label class="fl">Aplicação</label><input class="fi" id="fap" placeholder="Ex: Terno de Secagem, Geração"></div></div>
+<div class="fr"><div class="fg"><label class="fl">Governor Part Number</label><input class="fi" id="fpn" placeholder="Ex: 8200-012, 9905-858"></div><div class="fg"><label class="fl">Governor Serial Number</label><input class="fi" id="fsn" placeholder="Nº de série"></div></div>
+<div class="fr"><div class="fg"><label class="fl">Rotação Nominal (RPM)</label><input class="fi" id="frp" type="number" placeholder="Ex: 5500"></div><div class="fg"><label class="fl">Potência Nominal (kW)</label><input class="fi" id="fpw" type="number" placeholder="Ex: 1500"></div></div>
+<div class="fg"><label class="fl">Observações</label><textarea class="ft" id="fob" placeholder="Motivo da visita, anomalias observadas..."></textarea></div>
+<div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn bp" onclick="nSt(1)">Próximo: Fotos →</button></div>
+</div></div>
+
+<!-- STEP 2: FOTOS -->
+<div class="sp2" id="stp2"><div class="cd">
+<div class="cl">Etapa 2 — Registro Fotográfico</div>
+<p style="font-size:14px;color:var(--t2);margin-bottom:16px">Capture fotos do front panel, MPUs, atuador, display, fiação.</p>
+<div class="bg" style="margin-bottom:14px"><button class="btn bp" onclick="document.getElementById('iCam').click()">📷 Câmera</button><button class="btn bn" onclick="document.getElementById('iGal').click()">🖼️ Galeria</button></div>
+<input type="file" id="iCam" accept="image/*" capture="environment" multiple style="display:none" onchange="hPh(this)">
+<input type="file" id="iGal" accept="image/*" multiple style="display:none" onchange="hPh(this)">
+<div class="pz" onclick="document.getElementById('iGal').click()"><div style="font-size:2rem;margin-bottom:8px">📸</div><div style="font-size:14px;color:var(--t2)">Arraste ou <span style="color:var(--acc);font-weight:600">clique para selecionar</span></div><div style="font-size:12px;color:var(--td);margin-top:4px">JPG, PNG — máximo 8 fotos</div></div>
+<div class="pg" id="phG"></div>
+<div style="display:flex;justify-content:space-between;margin-top:18px;gap:8px"><button class="btn bn bs" onclick="pSt(2)">← Voltar</button><button class="btn bp" onclick="nSt(2)">Próximo: Service →</button></div>
+</div></div>
+
+<!-- STEP 3: SERVICE MODE -->
+<div class="sp2" id="stp3"><div class="cd">
+<div class="cl">Etapa 3 — Service Mode (Parâmetros ao Vivo)</div>
+<p style="font-size:14px;color:var(--t2);margin-bottom:16px">Valores do hand-held programmer. Campos vazios serão ignorados.</p>
+<div class="dtw" style="max-height:55vh;overflow-y:auto"><table class="dt"><thead><tr><th>#</th><th>Parâmetro</th><th>Valor</th><th>Un</th></tr></thead><tbody id="sSvc"></tbody></table></div>
+<div style="display:flex;justify-content:space-between;margin-top:18px;gap:8px"><button class="btn bn bs" onclick="pSt(3)">← Voltar</button><button class="btn bp" onclick="nSt(3)">Próximo: Config →</button></div>
+</div></div>
+
+<!-- STEP 4: CONFIG MODE -->
+<div class="sp2" id="stp4"><div class="cd">
+<div class="cl">Etapa 4 — Configure Mode (Turbina Parada)</div>
+<p style="font-size:14px;color:var(--t2);margin-bottom:16px">Parâmetros de configuração. Só podem ser alterados com turbina parada.</p>
+<div class="dtw" style="max-height:55vh;overflow-y:auto"><table class="dt"><thead><tr><th>#</th><th>Parâmetro</th><th>Valor</th><th>Un</th></tr></thead><tbody id="sCfg"></tbody></table></div>
+<div style="display:flex;justify-content:space-between;margin-top:18px;gap:8px"><button class="btn bn bs" onclick="pSt(4)">← Voltar</button><button class="btn bp" onclick="nSt(4)">Próximo: Salvar →</button></div>
+</div></div>
+
+<!-- STEP 5: SALVAR -->
+<div class="sp2" id="stp5"><div class="cd">
+<div class="cl">Etapa 5 — Confirmar e Salvar Backup</div>
+<div class="tm" id="sumT" style="margin-bottom:16px"></div>
+<div class="bg" style="margin-top:10px"><button class="btn bn bs" onclick="pSt(5)">← Voltar</button><button class="btn bp bl" onclick="svBk()" id="svBtn">💾 Salvar Backup</button><button class="btn bw bs" onclick="rstF()">↺ Novo</button></div>
+</div></div>
+</div>
+
+<!-- SERVICE MODE REF -->
+<div class="tp" id="p-service">
+<div class="sh"><div class="si">🔧</div><div><div class="st">Service Mode — Peak 150</div><div class="ss">Backup de referência · Dados reais de campo</div></div></div>
+<div class="cd"><div class="cl">Dados de Referência — Service Mode Completo</div><p style="font-size:14px;color:var(--t2);margin-bottom:16px">Valores reais coletados em campo (WS Controles). Use como referência para diagnósticos.</p>
+<div class="dtw" style="max-height:70vh;overflow-y:auto"><table class="dt"><thead><tr><th>Parâmetro</th><th>Valor</th><th>Un</th></tr></thead><tbody id="rSvc"></tbody></table></div></div>
+</div>
+
+<!-- CONFIG MODE REF -->
+<div class="tp" id="p-config">
+<div class="sh"><div class="si">⚙️</div><div><div class="st">Configure Mode — Peak 150</div><div class="ss">Configuração de referência · Turbina parada</div></div></div>
+<div class="cd"><div class="cl">Dados de Referência — Configure Mode</div>
+<div class="dtw" style="max-height:70vh;overflow-y:auto"><table class="dt"><thead><tr><th>Parâmetro</th><th>Valor</th></tr></thead><tbody id="rCfg"></tbody></table></div></div>
+</div>
+
+<!-- FAULTS -->
+<div class="tp" id="p-faults">
+<div class="sh"><div class="si">⚠️</div><div><div class="st">Referência de Falhas — Peak 150 / 505 / DSLC-2</div><div class="ss">Trip Codes · Alarms · Diagnostics · IEC 60073</div></div></div>
+<div class="sbt" id="fsbt"><button class="sb a" onclick="sFlt('peak',this)">Peak 150</button><button class="sb" onclick="sFlt('505',this)">505 Digital</button><button class="sb" onclick="sFlt('dslc2',this)">DSLC-2</button></div>
+<div class="sw"><span class="swi">🔍</span><input class="swn" id="fSrc" placeholder="Buscar código ou descrição..." oninput="bFlt()"></div>
+<div id="fOut"></div>
+</div>
+
+<!-- DOCS -->
+<div class="tp" id="p-docs">
+<div class="sh"><div class="si">📄</div><div><div class="st">Manuais & Documentação</div><div class="ss">Woodward Peak 150 · 505 · DSLC-2</div></div></div>
+<div class="cd"><div class="cl">Manuais Disponíveis</div><div class="tm">
+<div><span class="tc">Manual 85565C</span> <span class="tdi">—</span> Peak 150 Digital Control for Steam Turbines (122 pg)</div>
+<div><span class="tc">Manual 85565A</span> <span class="tdi">—</span> Peak 150 Digital Control — Revisão anterior (142 pg)</div>
+<div><span class="tc">Manual 85017V1A</span> <span class="tdi">—</span> 505 Digital Governor — Volume 1 (204 pg)</div>
+<div><span class="tc">Manual 85017V2A</span> <span class="tdi">—</span> 505 Digital Governor — Volume 2 (146 pg)</div>
+<div><span class="tc">Spec 37493C</span> <span class="tdi">—</span> DSLC-2 Digital Synchronizer & Load Control (4 pg)</div>
+</div></div>
+<div class="cd"><div class="cl">Referência Rápida — Peak 150</div><div class="tm">
+<div><span class="tg">▸</span> <span class="tc">Part Numbers:</span> 8200-008 a 019 / 9905-857 a 867</div>
+<div><span class="tg">▸</span> <span class="tc">MPU Input:</span> 1.0 Vrms mín · 200 Hz mín · 15 kHz máx</div>
+<div><span class="tg">▸</span> <span class="tc">Max Speed:</span> 15000 RPM</div>
+<div><span class="tg">▸</span> <span class="tc">Actuator:</span> 20-160 mA (Woodward) ou 4-20 mA</div>
+<div><span class="tg">▸</span> <span class="tc">Analog Output:</span> 4-20 mA ou 0-1 mA (jumper)</div>
+<div><span class="tg">▸</span> <span class="tc">Remote Input:</span> 4-20 mA (250Ω) ou 1-5 Vdc</div>
+<div><span class="tg">▸</span> <span class="tc">Contact Inputs (8):</span> Ext Trip, Clear, Start, Raise, Lower, Idle/Min, Remote E/D, Hi Dyn/OT</div>
+<div><span class="tg">▸</span> <span class="tc">Relays (4):</span> Trip, Alarm, Config#1, Config#2 · 2A@28Vdc / 0.3A@115Vac</div>
+<div><span class="tg">▸</span> <span class="tc">Power V1:</span> 18-32 Vdc · <span class="tc">V2:</span> 90-150 Vdc / 88-132 Vac</div>
+<div><span class="tg">▸</span> <span class="tc">Comm:</span> Modbus RTU/ASCII · RS-232/422/485 · até 19200 baud</div>
+</div></div>
+</div>
+
+<!-- ADMIN -->
+<div class="tp" id="p-admin">
+<div id="aL"><div class="alw"><div class="alb">
+<div style="text-align:center;font-size:2.5rem;margin-bottom:16px">🔐</div>
+<div style="text-align:center;font-size:16px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:24px">Acesso Técnico Avaliador</div>
+<div class="fg"><label class="fl">Senha</label><div class="ipw"><input class="fi" id="aPw" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')aIn()"><button class="tpw" onclick="tP('aPw',this)">👁</button></div></div>
+<button class="btn bp bk" onclick="aIn()" style="margin-top:10px">🔓 Entrar</button>
+<div class="ae" id="aEr">⛔ Senha incorreta.</div>
+</div></div></div>
+<div id="aD" style="display:none">
+<div class="sh"><div class="si">🔐</div><div><div class="st">Painel do Técnico Avaliador</div><div class="ss">Avaliação dos backups recebidos dos técnicos de campo</div></div></div>
+<div class="at"><div style="font-size:13px;color:var(--acc);font-weight:600">👤 Técnico autenticado</div><div class="bg"><button class="btn bp bs" onclick="eAll()">⬇ Exportar</button><button class="btn bd bs" onclick="aOu()">🔒 Sair</button></div></div>
+<div class="srw"><div class="sc"><div class="sv" id="aT">0</div><div class="slb">Backups</div></div><div class="sc"><div class="sv" id="aCl" style="color:var(--acc)">0</div><div class="slb">Clientes</div></div></div>
+<div id="aBk"></div>
+</div></div>
+
+<!-- ABOUT -->
+<div class="tp" id="p-about">
+<div class="sh"><div class="si">ℹ️</div><div><div class="st">Sobre o Peak 150 Field Tool</div><div class="ss">Informações do sistema</div></div></div>
+<div class="cd" style="text-align:center;padding:24px">
+<div style="font-family:var(--fm);font-size:28px;font-weight:700;color:var(--acc);letter-spacing:.12em">PEAK_150</div>
+<div style="font-size:13px;color:var(--t2);font-family:var(--fm);margin-top:4px">FIELD TOOL // v3.0.0</div>
+<div style="margin-top:12px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
+<span class="ba bao">Woodward</span><span class="ba bao">Peak 150</span><span class="ba bao">505 Digital</span><span class="ba bao">DSLC-2</span>
+</div></div>
+<div class="ig" style="margin-bottom:16px">
+<div class="ii"><div class="il">Equipamentos</div><div class="iv">Peak 150 · 505 · DSLC-2</div></div>
+<div class="ii"><div class="il">Plataforma</div><div class="iv">Web / PWA</div></div>
+<div class="ii"><div class="il">Armazenamento</div><div class="iv">LocalStorage</div></div>
+<div class="ii"><div class="il">Normas</div><div class="iv">IEC 60073 · ISA-101</div></div>
+</div>
+<div class="cd"><div class="cl">Desenvolvedor</div><div class="tm">
+<div><span class="tc">Jamis Costa</span></div>
+<div><span class="tdi">Técnico em Automação Industrial</span></div>
+<div><span class="tdi">Especialista em Fieldbus · Allen-Bradley/Rockwell · Woodward</span></div>
+</div></div>
+</div>
+
+</main>
+<div id="tc"></div>
+<div class="mo" id="cM"><div class="mb"><div class="mt" id="cTi">Confirmar</div><p id="cMs" style="font-size:14px;color:var(--t2);margin-bottom:20px;line-height:1.5"></p><div class="bg"><button class="btn bd" id="cOk">Confirmar</button><button class="btn bn" onclick="cMo()">Cancelar</button></div></div></div>
+
+<script>
+const SK='peak150_fb',AP='peak150@admin';let aLi=false,cFS='peak';
+// SERVICE MODE PARAMS
+const SP=[{s:'Alarms'},{i:'s01',n:'MPU #1 Failure',u:'',b:1},{i:'s02',n:'MPU #2 Failure',u:'',b:1},{i:'s03',n:'Remote Input Failure',u:'',b:1},{i:'s04',n:'Comm Link Failure',u:'',b:1},{i:'s05',n:'Turbine Trip',u:'',b:1},{i:'s06',n:'Use Trip as Common Alarm',u:'',b:1},{s:'Trips'},{i:'s07',n:'Last Trip Code',u:'(1-5)'},{i:'s08',n:'External Trip',u:'',b:1},{i:'s09',n:'Overspeed Trip',u:'',b:1},{i:'s10',n:'Loss of Both MPUs',u:'',b:1},{i:'s11',n:'Front Panel Trip',u:'',b:1},{i:'s12',n:'Modbus Trip',u:'',b:1},{i:'s13',n:'Last Trip Code (in Service)',u:''},{s:'Speed Dynamics'},{i:'s14',n:'Low Speed Gain',u:''},{i:'s15',n:'Low Speed Reset',u:''},{i:'s16',n:'High Speed Switch Point',u:'RPM'},{i:'s17',n:'High Speed Gain',u:''},{i:'s18',n:'High Speed Reset',u:''},{i:'s19',n:'High Speed Selected',u:'',b:1},{s:'Speed Values'},{i:'s20',n:'Actual Speed',u:'RPM'},{i:'s21',n:'Local Speed Setpoint',u:'RPM'},{i:'s22',n:'Actual Speed Setpoint',u:'RPM'},{i:'s23',n:'Remote Spd Setting',u:'RPM'},{i:'s24',n:'Start Ramp Rate',u:'RPM/s'},{i:'s25',n:'Setpoint Slow Rate',u:'RPM/s'},{i:'s26',n:'Delay for Fast Rate',u:'sec'},{i:'s27',n:'Setpoint Fast Rate',u:'RPM/s'},{i:'s28',n:'Min Governor Speed',u:'RPM'},{i:'s29',n:'Max Governor Speed',u:'RPM'},{i:'s30',n:'Overspeed Level',u:'RPM'},{i:'s31',n:'External Ospd Level',u:'RPM'},{i:'s32',n:'Overspeed Test Limit',u:'RPM'},{i:'s33',n:'Droop',u:'%'},{i:'s34',n:'Use Setpoint Set-Back',u:'',b:1},{s:'Remote Setting'},{i:'s35',n:'Actual Remote Setpoint',u:''},{i:'s36',n:'Remote Set Input',u:''},{i:'s37',n:'Remote Not Matched Rate',u:''},{i:'s38',n:'Remote Rate-Max',u:'RPM/s'},{i:'s39',n:'Modbus Remote Used',u:'',b:1},{s:'Failure MPU Override'},{i:'s40',n:'Auto-Ovrd-Off Speed',u:'Hz'},{i:'s41',n:'Use MPU Override Timer?',u:'',b:1},{i:'s42',n:'Max Starting Time',u:'sec'},{i:'s43',n:'Use Slow Rolldown Ovrd?',u:'',b:1},{i:'s44',n:'Auto-Ovrd-On Speed',u:'Hz'},{i:'s45',n:'Auto-Ovrd-On Delay',u:'sec'},{i:'s46',n:'Ovrd On Status',u:'',b:1},{s:'Idle/Min Gov Ramp'},{i:'s47',n:'Idle Speed',u:'RPM'},{i:'s48',n:'Use Idle/Min Gov Ramp?',u:'',b:1},{i:'s49',n:'Minimum Governor Speed',u:'RPM'},{i:'s50',n:'Idle/Min Gov Rate',u:'RPM/s'},{i:'s51',n:'Use Ramp to Idle?',u:'',b:1},{i:'s52',n:'Start = Ramp to Gov?',u:'',b:1},{i:'s53',n:'Ramping to Min',u:'',b:1},{i:'s54',n:'Ramping to Idle',u:''},{s:'Critical Speed Band'},{i:'s55',n:'Use Critical Band?',u:'',b:1},{i:'s56',n:'Critical Speed Min',u:'RPM'},{i:'s57',n:'Critical Speed Max',u:'RPM'},{i:'s58',n:'Critical Band Rate',u:'RPM/s'},{i:'s59',n:'In Critical Band',u:'',b:1},{s:'SPD SW / Hand VLV'},{i:'s60',n:'Relay #1 On',u:'RPM/%'},{i:'s61',n:'Relay #1 Off',u:'RPM/%'},{i:'s62',n:'Relay #2 On',u:'RPM/%'},{i:'s63',n:'Relay #2 Off',u:'RPM/%'},{i:'s64',n:'Underspeed Level',u:'RPM'},{s:'Valve Output'},{i:'s65',n:'Valve Position',u:'%'},{i:'s66',n:'Valve Offset Adjust',u:''},{i:'s67',n:'Valve Gain Adjust',u:''},{i:'s68',n:'Valve Ramp Position',u:'%'},{i:'s69',n:'Manually Raise Ramp?',u:'',b:1},{i:'s70',n:'Manually Lower Ramp?',u:'',b:1},{i:'s71',n:'Ramp Rate',u:'%/sec'},{i:'s72',n:'Dither Adjust',u:''},{i:'s73',n:'Stroke Valve Output?',u:'',b:1},{i:'s74',n:'Stroke Position',u:'%'},{i:'s75',n:'Min/Max Switch',u:'',b:1},{s:'Readout Adjustments'},{i:'s76',n:'RO #1 Offset',u:''},{i:'s77',n:'RO #1 Gain',u:''},{i:'s78',n:'RO #2 Offset',u:''},{i:'s79',n:'RO #2 Gain',u:''},{i:'s80',n:'RO #2 Value',u:''},{s:'Modbus Comm'},{i:'s81',n:'Hardware Config',u:''},{i:'s82',n:'Baud Rate',u:''},{i:'s83',n:'Stop Bits',u:''},{i:'s84',n:'Parity',u:''},{i:'s85',n:'Link Error',u:'',b:1},{i:'s86',n:'Exception Error',u:'',b:1},{i:'s87',n:'Error Number',u:''},{i:'s88',n:'Error Percent',u:'%'}];
+// CONFIG MODE PARAMS
+const CP=[{s:'Speed Configuration'},{i:'c01',n:'Teeth seen by MPU',u:''},{i:'c02',n:'MPU Gear Ratio 1',u:''},{i:'c03',n:'MPU #1 Max Hz',u:'Hz'},{i:'c04',n:'MPU #2 Max Hz',u:'Hz'},{i:'c05',n:'Max Speed Level',u:'Hz'},{i:'c06',n:'Min Speed Level',u:'Hz'},{s:'Start Mode'},{i:'c07',n:'Manual Start Mode?',u:'',b:1},{i:'c08',n:'Automatic Start Mode?',u:'',b:1},{s:'Actuator Configuration'},{i:'c09',n:'Use 20-160 mA Actuator?',u:'',b:1},{i:'c10',n:'Use 4-20 mA Actuator?',u:'',b:1},{s:'Operating Mode'},{i:'c11',n:'Manual Control Only?',u:'',b:1},{i:'c12',n:'Use Remote Speed Setting?',u:'',b:1},{i:'c13',n:'Use High Signal Select?',u:'',b:1},{i:'c14',n:'Use Modbus Analog Input?',u:'',b:1},{s:'Readouts'},{i:'c15',n:'Speed RO 4mA Value',u:''},{i:'c16',n:'Speed RO 20mA Value',u:''},{i:'c17',n:'Readout #2 Option',u:''},{i:'c18',n:'RO#2 4mA Value',u:''},{i:'c19',n:'RO#2 20mA Value',u:''},{s:'Relays'},{i:'c20',n:'Relay #3 Option',u:''},{i:'c21',n:'Relay #4 Option',u:''},{i:'c22',n:'Use Speed Switch?',u:'',b:1},{i:'c23',n:'Switch#2 Underspeed?',u:'',b:1},{i:'c24',n:'Use Hand Valve?',u:'',b:1},{i:'c25',n:'Trip Relay Energizes?',u:'',b:1},{i:'c26',n:'Reset Clears Trip?',u:'',b:1},{s:'Contact In #8'},{i:'c27',n:'In#8 is Ospd Test',u:'',b:1},{s:'Modbus Communication'},{i:'c28',n:'Use Modbus Port?',u:'',b:1},{i:'c29',n:'Hardware Config',u:''},{i:'c30',n:'Transmission Mode',u:''},{i:'c31',n:'Network Address',u:''}];
+// REF DATA (real field backup - anonymized)
+const RS={s01:'FALSE',s02:'FALSE',s03:'TRUE',s04:'FALSE',s05:'TRUE',s06:'TRUE',s07:'1',s08:'TRUE',s09:'TRUE',s10:'False',s11:'false',s12:'FALSE',s13:'1',s14:'1.62',s15:'0.3',s16:'10003.07',s17:'2.5',s18:'0.4',s19:'FALSE',s20:'2.08',s21:'0',s22:'0',s23:'4298.7',s24:'25',s25:'50',s26:'2',s27:'80',s28:'3504.26',s29:'5837',s30:'6500',s31:'6850',s32:'7250',s33:'2',s34:'TRUE',s35:'4294',s36:'4307',s37:'50',s38:'50.07',s39:'FALSE',s40:'400',s41:'FALSE',s42:'30',s43:'FALSE',s44:'400',s45:'5',s46:'TRUE',s47:'1700',s48:'TRUE',s49:'3550',s50:'30.07',s51:'TRUE',s52:'FALSE',s53:'FALSE',s54:'1500',s55:'FALSE',s56:'1500',s57:'1500',s58:'50',s59:'FALSE',s60:'3500',s61:'4750',s62:'3530',s63:'4860',s64:'3000',s65:'0',s66:'4.08',s67:'1',s68:'2',s69:'FALSE',s70:'FALSE',s71:'4.09',s72:'0',s73:'FALSE',s74:'0',s75:'FALSE',s76:'0',s77:'1',s78:'0',s79:'1',s80:'2.08',s81:'',s82:'',s83:'',s84:'',s85:'',s86:'',s87:'',s88:''};
+const RC={c01:'32.00',c02:'1.00',c03:'5333.00',c04:'5333.00',c05:'5333.00',c06:'50.00',c07:'FALSE',c08:'TRUE',c09:'FALSE',c10:'TRUE',c11:'FALSE',c12:'TRUE',c13:'FALSE',c14:'FALSE',c15:'0.0',c16:'10000.0',c17:'1. Actual Speed',c18:'0.0',c19:'10000.0',c20:'10. Spd Switch #1',c21:'11. Spd Switch #2',c22:'TRUE',c23:'FALSE',c24:'FALSE',c25:'FALSE',c26:'TRUE',c27:'FALSE',c28:'FALSE',c29:'3=RS-485',c30:'2=RTU',c31:'1.0'};
+// FAULT DB
+const FP=[{c:'Trip 1',d:'External Trip',ca:'Contato externo aberto (emergency shutdown)',ac:'Verificar contato, relé proteção, fiação',s:'t'},{c:'Trip 2',d:'Loss of Both MPUs',ca:'Ambos sensores de velocidade perdidos',ac:'Verificar MPU#1/#2, cabos, shield, gap, voltagem (mín 1.0 Vrms)',s:'t'},{c:'Trip 3',d:'Overspeed Trip',ca:'Velocidade excedeu Overspeed Level',ac:'Verificar setpoint, válvula vapor, atuador, PID',s:'t'},{c:'Trip 4',d:'Front Panel Trip',ca:'Botão Emergency Trip pressionado',ac:'Verificar ação do operador',s:'t'},{c:'Trip 5',d:'Modbus Trip',ca:'Comando trip via Modbus',ac:'Verificar SCADA/DCS, comunicação',s:'t'},{c:'Alarm',d:'MPU #1 Failure',ca:'Sinal < 1.0 Vrms ou fora da faixa Hz',ac:'Verificar gap, cabo, shield. Mín 200 Hz',s:'a'},{c:'Alarm',d:'MPU #2 Failure',ca:'Sinal < 1.0 Vrms ou fora da faixa Hz',ac:'Mesmo procedimento MPU#1',s:'a'},{c:'Alarm',d:'Remote Input Failure',ca:'Sinal < 2mA (0.5V) ou > 22mA (5.5V)',ac:'Verificar fonte corrente, fiação, impedância',s:'a'},{c:'Alarm',d:'Comm Link Failure',ca:'Link Modbus perdido',ac:'Verificar cabo RS-232/422/485, baud rate',s:'a'},{c:'Err0',d:'RAM Test Failure',ca:'Falha memória RAM na inicialização',ac:'Retornar à fábrica',s:'d'},{c:'Err1',d:'Analog I/O Timer #1',ca:'Timer conversor analógico falhou',ac:'Retornar à fábrica',s:'d'},{c:'Err2',d:'Analog I/O Timer #2',ca:'Timer conversor analógico falhou',ac:'Retornar à fábrica',s:'d'},{c:'Err3',d:'I/O Lockout Failure',ca:'Circuito lockout falhou',ac:'Retornar à fábrica',s:'d'},{c:'Err4',d:'-12V Power Supply',ca:'Fonte -12V fora de spec',ac:'Verificar fusíveis, retornar se persistir',s:'d'},{c:'Err5',d:'+12V Power Supply',ca:'Fonte +12V fora de spec',ac:'Verificar fusíveis, retornar se persistir',s:'d'},{c:'Err6',d:'+12V P Power Supply',ca:'Fonte +12V P fora de spec',ac:'Retornar à fábrica',s:'d'},{c:'Err7',d:'+4.5V Power Supply',ca:'Fonte +4.5V fora de spec',ac:'Retornar à fábrica',s:'d'}];
+const F5=[{c:'Shutdown',d:'External Trip Input',ca:'Contato externo de trip aberto',ac:'Verificar string de trip, relés',s:'t'},{c:'Shutdown',d:'Overspeed',ca:'Velocidade excedeu trip level',ac:'Verificar PID, válvula, setpoint',s:'t'},{c:'Shutdown',d:'Speed Sensor Failure',ca:'Perda sinal sensores velocidade',ac:'Verificar MPUs, cabos, gap, shield',s:'t'},{c:'Shutdown',d:'Aux Input Failed',ca:'Entrada auxiliar fora da faixa',ac:'Verificar transdutor 4-20 mA',s:'t'},{c:'Shutdown',d:'External Trip 2-5',ca:'Contatos de trip adicionais',ac:'Identificar qual contato via front panel',s:'t'},{c:'Shutdown',d:'Comm Link #1/#2 Trip',ca:'Perda comunicação Modbus',ac:'Verificar cabos, terminação, baud rate',s:'t'},{c:'Shutdown',d:'KW Input Failed',ca:'Sinal kW fora da faixa',ac:'Verificar CT, PT, transdutor potência',s:'t'},{c:'Shutdown',d:'Generator Breaker Open',ca:'Disjuntor gerador abriu',ac:'Verificar proteção gerador',s:'t'},{c:'Shutdown',d:'Power Up Trip',ca:'Trip na energização',ac:'Verificar start permissive, contactos',s:'t'},{c:'Controlled',d:'Shutdown Complete',ca:'Parada controlada finalizada',ac:'Nenhuma ação — sequência normal',s:'a'}];
+const FD=[{c:'Alarm',d:'Centralized Alarm',ca:'Alarme centralizado ativo',ac:'Consultar ToolKit software',s:'a'},{c:'Relay',d:'Breaker Close/Open',ca:'Comando disjuntor',ac:'Verificar condição de sincronismo',s:'a'},{c:'Relay',d:'High/Low Limit',ca:'Limite de carga atingido',ac:'Verificar setpoint carga e capacidade',s:'a'},{c:'LED',d:'CPU OK (apagado)',ca:'CPU não operando',ac:'Ciclar power, verificar 12/24 Vdc (8-40V)',s:'d'},{c:'LED',d:'Sync Enable',ca:'Habilitação do sincronizador',ac:'Verificar discrete inputs de sync',s:'d'}];
+// INIT
+document.addEventListener('DOMContentLoaded',()=>{document.getElementById('fd').value=new Date().toISOString().split('T')[0];bRef();bFlt();bST();bCT()});
+let cStp=1,photos=[];
+function bST(){let x=0;document.getElementById('sSvc').innerHTML=SP.map(p=>{if(p.s)return'<tr class="sr"><td colspan="4">'+p.s+'</td></tr>';x++;return'<tr><td class="dm">'+x+'</td><td>'+p.n+'</td><td><input type="text" id="sv_'+p.i+'" placeholder="—" style="background:transparent;border:none;border-bottom:1px solid var(--bd);color:var(--cyn);font-family:var(--fm);font-size:15px;font-weight:600;width:100%;outline:none;padding:2px 4px;min-width:80px"></td><td class="dm">'+p.u+'</td></tr>'}).join('')}
+function bCT(){let x=0;document.getElementById('sCfg').innerHTML=CP.map(p=>{if(p.s)return'<tr class="sr"><td colspan="4">'+p.s+'</td></tr>';x++;return'<tr><td class="dm">'+x+'</td><td>'+p.n+'</td><td><input type="text" id="cv_'+p.i+'" placeholder="—" style="background:transparent;border:none;border-bottom:1px solid var(--bd);color:var(--cyn);font-family:var(--fm);font-size:15px;font-weight:600;width:100%;outline:none;padding:2px 4px;min-width:80px"></td><td class="dm">'+p.u+'</td></tr>'}).join('')}
+function nSt(f){if(f===1&&!document.getElementById('fc').value.trim()){toast('Informe o cliente.','warning');document.getElementById('fc').focus();return}if(f<5)gSt(f+1)}
+function pSt(f){if(f>1)gSt(f-1)}
+function gSt(n){document.querySelectorAll('.sp2').forEach(p=>p.classList.remove('a'));document.getElementById('stp'+n).classList.add('a');for(let i=0;i<5;i++){const w=document.getElementById('sw'+i),c=document.getElementById('sc'+i),l=document.getElementById('sl'+i);w.classList.remove('ac','dn');c.classList.remove('ac','dn');if(l)l.classList.remove('dn');if(i+1<n){w.classList.add('dn');c.classList.add('dn');c.textContent='✓';if(l)l.classList.add('dn')}else if(i+1===n){w.classList.add('ac');c.classList.add('ac');c.textContent=n}else c.textContent=i+1}cStp=n;if(n===5)bSum();window.scrollTo({top:0,behavior:'smooth'})}
+function hPh(inp){const fs=Array.from(inp.files).filter(f=>f.type.startsWith('image/'));const rem=8-photos.length;if(rem<=0){toast('Máximo 8 fotos.','warning');return}fs.slice(0,rem).forEach(f=>{const r=new FileReader();r.onload=e=>{photos.push({d:e.target.result,n:f.name});rPg()};r.readAsDataURL(f)});inp.value=''}
+function rPg(){document.getElementById('phG').innerHTML=photos.map((p,i)=>'<div class="pt"><img src="'+p.d+'" alt="'+p.n+'"><button class="ptd" onclick="event.stopPropagation();photos.splice('+i+',1);rPg()">✕</button></div>').join('')}
+function gV(id){return(document.getElementById(id)?.value||'').trim()||'—'}
+function bSum(){const svc=SP.filter(p=>p.i).map(p=>({i:p.i,n:p.n,v:(document.getElementById('sv_'+p.i)?.value||'').trim()})).filter(p=>p.v);const cfg=CP.filter(p=>p.i).map(p=>({i:p.i,n:p.n,v:(document.getElementById('cv_'+p.i)?.value||'').trim()})).filter(p=>p.v);document.getElementById('sumT').innerHTML='<span class="tdi">// WOODWARD PEAK 150 — BACKUP DE CAMPO</span>\n<span class="tdi">// '+new Date().toLocaleString('pt-BR')+'</span>\n\n<span class="tc">CLIENTE     :</span> '+gV('fc')+'\n<span class="tc">TÉCNICO     :</span> '+gV('fte')+'\n<span class="tc">LOCAL       :</span> '+gV('fci')+'\n<span class="tc">TURBINA     :</span> '+gV('ftu')+'\n<span class="tc">GOV P/N     :</span> '+gV('fpn')+'\n<span class="tc">GOV S/N     :</span> '+gV('fsn')+'\n<span class="tc">RPM NOMINAL :</span> '+gV('frp')+'\n<span class="tc">POTÊNCIA    :</span> '+gV('fpw')+' kW\n<span class="tc">FOTOS       :</span> '+photos.length+' capturada(s)\n<span class="tc">SERVICE MODE:</span> '+svc.length+' parâmetro(s)\n<span class="tc">CONFIG MODE :</span> '+cfg.length+' parâmetro(s)'}
+function svBk(){const cl=document.getElementById('fc').value.trim();if(!cl){toast('Cliente obrigatório.','warning');return}const btn=document.getElementById('svBtn');btn.innerHTML='<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(0,0,0,.2);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite"></span> Salvando...';btn.disabled=true;setTimeout(()=>{const svc={},cfg={};SP.filter(p=>p.i).forEach(p=>{const v=(document.getElementById('sv_'+p.i)?.value||'').trim();if(v)svc[p.i]=v});CP.filter(p=>p.i).forEach(p=>{const v=(document.getElementById('cv_'+p.i)?.value||'').trim();if(v)cfg[p.i]=v});const bk={id:Date.now().toString(),timestamp:new Date().toISOString(),client:cl,tech:document.getElementById('fte').value.trim(),city:document.getElementById('fci').value.trim(),date:document.getElementById('fd').value,turbine:document.getElementById('ftu').value.trim(),application:document.getElementById('fap').value.trim(),pn:document.getElementById('fpn').value.trim(),sn:document.getElementById('fsn').value.trim(),rpm:document.getElementById('frp').value.trim(),power:document.getElementById('fpw').value.trim(),obs:document.getElementById('fob').value.trim(),photos:photos.map(p=>p.d),serviceMode:svc,configMode:cfg};const all=gBk();all.unshift(bk);sBk(all);btn.innerHTML='💾 Salvar Backup';btn.disabled=false;toast('Backup salvo com sucesso!','success');rstF()},400)}
+function rstF(){['fc','fte','fci','ftu','fap','fpn','fsn','frp','fpw','fob'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});document.getElementById('fd').value=new Date().toISOString().split('T')[0];photos=[];rPg();bST();bCT();gSt(1)}
+// TAB NAV
+function sT(n){document.querySelectorAll('.tp').forEach(p=>p.classList.remove('a'));document.querySelectorAll('.tb').forEach(b=>b.classList.remove('a'));document.getElementById('p-'+n).classList.add('a');document.getElementById('t-'+n).classList.add('a');if(n==='admin'&&aLi)rABk()}
+// REF TABLES
+function bRef(){
+const st=document.getElementById('rSvc');
+st.innerHTML=SP.map(p=>{if(p.s)return'<tr class="sr"><td colspan="3">'+p.s+'</td></tr>';const v=RS[p.i]||'—';const c=p.b?(v.toUpperCase()==='TRUE'?'bt':'bf'):'vc';return'<tr><td>'+p.n+'</td><td class="'+c+'">'+v+'</td><td class="dm">'+p.u+'</td></tr>'}).join('');
+const ct=document.getElementById('rCfg');
+ct.innerHTML=CP.map(p=>{if(p.s)return'<tr class="sr"><td colspan="2">'+p.s+'</td></tr>';const v=RC[p.i]||'—';const c=p.b?(v.toUpperCase()==='TRUE'?'bt':'bf'):'vc';return'<tr><td>'+p.n+'</td><td class="'+c+'">'+v+'</td></tr>'}).join('');
+}
+// FAULT TABLE
+function bFlt(f){
+const db=cFS==='peak'?FP:cFS==='505'?F5:FD;const q=(f||document.getElementById('fSrc')?.value||'').toLowerCase();
+const rows=db.filter(r=>!q||r.c.toLowerCase().includes(q)||r.d.toLowerCase().includes(q)||r.ca.toLowerCase().includes(q)||r.ac.toLowerCase().includes(q));
+const el=document.getElementById('fOut');
+if(!rows.length){el.innerHTML='<div class="es"><div class="ei">🔍</div><div class="et">Nenhuma falha encontrada</div></div>';return}
+const si=s=>s==='t'?'🔴':s==='a'?'🟡':'🔵';
+const sl=s=>s==='t'?'TRIP':s==='a'?'ALARM':'DIAG';
+const sc=s=>s==='t'?'svt':s==='a'?'sva':'svd';
+el.innerHTML='<div class="cd" style="padding:0;overflow:hidden"><div style="overflow-x:auto"><table class="ftb"><thead><tr><th>Código</th><th>Descrição</th><th>Causa Provável</th><th>Ação Recomendada</th><th>Tipo</th></tr></thead><tbody>'+rows.map(r=>'<tr><td class="fc">'+r.c+'</td><td style="font-weight:600">'+r.d+'</td><td style="color:var(--t2);font-size:13px">'+r.ca+'</td><td style="color:var(--acc);font-size:13px">'+r.ac+'</td><td style="white-space:nowrap"><span class="'+sc(r.s)+'">'+si(r.s)+'</span> <span style="font-size:11px;color:var(--td)">'+sl(r.s)+'</span></td></tr>').join('')+'</tbody></table></div></div>';
+}
+function sFlt(s,el){cFS=s;document.querySelectorAll('#fsbt .sb').forEach(b=>b.classList.remove('a'));el.classList.add('a');document.getElementById('fSrc').value='';bFlt()}
+// ADMIN
+function aIn(){if(document.getElementById('aPw').value===AP){aLi=true;document.getElementById('aL').style.display='none';document.getElementById('aD').style.display='block';rABk();toast('Acesso concedido.','success')}else{document.getElementById('aEr').style.display='block'}}
+function aOu(){aLi=false;document.getElementById('aL').style.display='block';document.getElementById('aD').style.display='none';document.getElementById('aPw').value=''}
+function tP(id,btn){const el=document.getElementById(id);el.type=el.type==='password'?'text':'password';btn.textContent=el.type==='password'?'👁':'🙈'}
+function gBk(){try{return JSON.parse(localStorage.getItem(SK)||'[]')}catch{return[]}}
+function sBk(a){try{localStorage.setItem(SK,JSON.stringify(a))}catch{toast('Armazenamento cheio!','warning')}}
+function rABk(){const bk=gBk();document.getElementById('aT').textContent=bk.length;document.getElementById('aCl').textContent=new Set(bk.map(b=>b.client)).size;const l=document.getElementById('aBk');if(!bk.length){l.innerHTML='<div class="es"><div class="ei">📂</div><div class="et">Nenhum backup ainda</div><div class="esu">Backups dos técnicos aparecerão aqui</div></div>';return}l.innerHTML=bk.map(b=>'<div class="bcc" id="bc-'+b.id+'"><div class="bch" onclick="document.getElementById(\'bc-'+b.id+'\').classList.toggle(\'ex\')"><div class="bca">'+(b.client||'?').slice(0,2).toUpperCase()+'</div><div class="bcm"><div class="bcn">'+b.client+'</div><div class="bci">'+new Date(b.timestamp).toLocaleString('pt-BR')+' · '+(b.tech||'—')+'</div></div><div class="bcv">▼</div></div><div class="bcb"><div class="ig" style="margin-top:12px"><div class="ii"><div class="il">Turbina</div><div class="iv">'+(b.turbine||'—')+'</div></div><div class="ii"><div class="il">P/N</div><div class="iv">'+(b.pn||'—')+'</div></div><div class="ii"><div class="il">RPM</div><div class="iv">'+(b.rpm||'—')+'</div></div><div class="ii"><div class="il">Potência</div><div class="iv">'+(b.power?b.power+' kW':'—')+'</div></div></div>'+(b.obs?'<div class="bst">Observações</div><div style="font-size:14px;color:var(--t2);padding:10px 12px;background:var(--rs);border-radius:var(--r);line-height:1.5">'+b.obs+'</div>':'')+'<div class="bg" style="margin-top:16px"><button class="btn bp bs" onclick="dJ([gBk().find(x=>x.id===\''+b.id+'\')],\'peak150_'+b.id+'.json\')">⬇ Exportar</button><button class="btn bd bs" onclick="dBk(\''+b.id+'\')">🗑 Excluir</button></div></div></div>').join('')}
+function dBk(id){if(confirm('Excluir este backup?')){sBk(gBk().filter(b=>b.id!==id));toast('Excluído.','info');rABk()}}
+function eAll(){const bk=gBk();if(!bk.length){toast('Nenhum backup.','info');return}dJ(bk,'peak150_all_'+Date.now()+'.json');toast(bk.length+' exportado(s).','success')}
+function dJ(d,fn){const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=fn;a.click();URL.revokeObjectURL(u)}
+// TOAST
+function toast(m,t){const ic={success:'✅',error:'⛔',warning:'⚠',info:'ℹ'};const c=document.getElementById('tc');const e=document.createElement('div');e.className='to to'+t[0];e.innerHTML='<span>'+ic[t]+'</span><span>'+m+'</span>';c.appendChild(e);setTimeout(()=>{e.style.animation='tou .3s ease forwards';setTimeout(()=>e.remove(),300)},3500)}
+function cMo(){document.getElementById('cM').classList.remove('op')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cMo()});
+</script>
+</body>
+</html>
